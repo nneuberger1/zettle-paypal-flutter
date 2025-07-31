@@ -2,14 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch Example App (iOS Simulator)",
+            "name": "Launch Example App (iPhone 16 Pro Max Simulator)",
             "type": "dart",
             "request": "launch",
             "program": "example/lib/main.dart",
             "cwd": "${workspaceFolder}",
             "args": [
                 "-d",
-                "ios"
+                "2A9A5917-1D3E-4731-8D57-FAD6E887C3F6"
             ],
             "console": "debugConsole",
             "env": {
@@ -17,46 +17,43 @@
             }
         },
         {
-            "name": "Launch Example App (iOS Device)",
+            "name": "Launch Example App (iPad Pro Simulator)",
             "type": "dart",
             "request": "launch",
             "program": "example/lib/main.dart",
             "cwd": "${workspaceFolder}",
             "args": [
                 "-d",
-                "ios",
-                "--no-codesign"
+                "949BF66F-3731-4F28-9801-36083173DE6B"
             ],
-            "console": "debugConsole"
+            "console": "debugConsole",
+            "env": {
+                "FLUTTER_WEB": "false"
+            }
         },
         {
-            "name": "Launch Example App (iOS Release)",
+            "name": "Launch Example App (iOS Device - Wireless)",
             "type": "dart",
             "request": "launch",
             "program": "example/lib/main.dart",
             "cwd": "${workspaceFolder}",
             "args": [
                 "-d",
-                "ios",
-                "--release"
+                "6380bae8c0b6fac66742aebe1c33d2676d729c0a"
             ],
             "console": "debugConsole"
         },
         {
-            "name": "Launch Example App (iOS Profile)",
+            "name": "Launch Example App (Auto-select iOS)",
             "type": "dart",
             "request": "launch",
             "program": "example/lib/main.dart",
             "cwd": "${workspaceFolder}",
-            "args": [
-                "-d",
-                "ios",
-                "--profile"
-            ],
-            "console": "debugConsole"
+            "console": "debugConsole",
+            "deviceId": "ios"
         },
         {
-            "name": "Launch Example App (Auto-detect Device)",
+            "name": "Launch Example App (Any Available Device)",
             "type": "dart",
             "request": "launch",
             "program": "example/lib/main.dart",
