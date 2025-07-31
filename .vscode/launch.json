@@ -1,0 +1,67 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Example App (iOS Simulator)",
+            "type": "dart",
+            "request": "launch",
+            "program": "example/lib/main.dart",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-d",
+                "ios"
+            ],
+            "console": "debugConsole",
+            "env": {
+                "FLUTTER_WEB": "false"
+            }
+        },
+        {
+            "name": "Launch Example App (iOS Device)",
+            "type": "dart",
+            "request": "launch",
+            "program": "example/lib/main.dart",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-d",
+                "ios",
+                "--no-codesign"
+            ],
+            "console": "debugConsole"
+        },
+        {
+            "name": "Launch Example App (iOS Release)",
+            "type": "dart",
+            "request": "launch",
+            "program": "example/lib/main.dart",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-d",
+                "ios",
+                "--release"
+            ],
+            "console": "debugConsole"
+        },
+        {
+            "name": "Launch Example App (iOS Profile)",
+            "type": "dart",
+            "request": "launch",
+            "program": "example/lib/main.dart",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "-d",
+                "ios",
+                "--profile"
+            ],
+            "console": "debugConsole"
+        },
+        {
+            "name": "Launch Example App (Auto-detect Device)",
+            "type": "dart",
+            "request": "launch",
+            "program": "example/lib/main.dart",
+            "cwd": "${workspaceFolder}",
+            "console": "debugConsole"
+        }
+    ]
+}
