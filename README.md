@@ -226,6 +226,9 @@ Result of a successful refund transaction.
 
 ## Example App
 
+![Zettle Logo](assets/zettle_paypal_flutter_demo_example1.png)
+
+
 The example app demonstrates all plugin features:
 
 1. **Authentication flow**: Login/logout functionality
