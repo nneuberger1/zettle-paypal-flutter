@@ -22,9 +22,38 @@ This plugin provides a Dart API wrapper around the native Zettle iOS SDK.
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'EXCLUDED_ARCHS[sdk=iphonesimulator*]' => 'i386' }
   s.swift_version = '5.0'
 
-  # Add Zettle SDK as local dependency
-  # Note: You'll need to add the Zettle SDK frameworks to your iOS project
-  # or include them as a dependency. For now, we'll prepare for local integration.
+  # Include Zettle SDK frameworks directly
+  s.vendored_frameworks = [
+    'iZettleSDK/Frameworks/iZettleSDK.xcframework',
+    'iZettleSDK/Frameworks/iZettlePayments.xcframework',
+    'iZettleSDK/Frameworks/PPRiskMagnes.xcframework'
+  ]
+  
+  # Debug symbols for Zettle SDK
+  s.preserve_paths = [
+    'iZettleSDK/Frameworks/iZettleSDK.xcframework.dSYM',
+    'iZettleSDK/Frameworks/iZettlePayments.xcframework.dSYM',
+    'iZettleSDK/Frameworks/PPRiskMagnes.xcframework.dSYM'
+  ]
+  
+  # Required frameworks for Zettle SDK
+  s.frameworks = [
+    'Foundation',
+    'UIKit',
+    'CoreBluetooth',
+    'ExternalAccessory',
+    'CoreLocation',
+    'AVFoundation',
+    'MediaPlayer'
+  ]
+  
+  # Weak frameworks (may not be available on all iOS versions)
+  s.weak_frameworks = [
+    'PassKit'
+  ]
+  
+  # System libraries
+  s.libraries = 'c++'
   
   # If your plugin requires a privacy manifest, for example if it uses any
   # required reason APIs, update the PrivacyInfo.xcprivacy file to describe your

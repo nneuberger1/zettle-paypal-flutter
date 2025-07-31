@@ -22,8 +22,9 @@ A Flutter plugin for integrating Zettle (PayPal) iOS SDK, enabling payment proce
 
 - Flutter SDK 3.3.0 or higher
 - iOS 12.0 or higher
-- Zettle iOS SDK frameworks
 - Valid Zettle developer account and API credentials
+
+**Note**: The Zettle iOS SDK frameworks are included with this plugin - no manual SDK installation required!
 
 ## Installation
 
@@ -38,14 +39,9 @@ dependencies:
 
 ### iOS Setup
 
-1. **Add Zettle SDK to your iOS project:**
-   - Download the Zettle iOS SDK from the [Zettle Developer Portal](https://developer.zettle.com/)
-   - Add the following frameworks to your iOS project:
-     - `iZettleSDK.xcframework`
-     - `iZettlePayments.xcframework`
-     - `PPRiskMagnes.xcframework`
+The Zettle iOS SDK is automatically included with this plugin, so no manual framework installation is required.
 
-2. **Update your iOS Info.plist:**
+1. **Update your iOS Info.plist:**
    Add the following permissions and configurations:
 
 ```xml
@@ -86,9 +82,9 @@ dependencies:
 </array>
 ```
 
-3. **Configure your iOS project:**
-   - Update the `ios/Runner.xcodeproj` to link the Zettle SDK frameworks
+2. **Configure your iOS project:**
    - Ensure deployment target is iOS 12.0 or higher
+   - The Zettle SDK frameworks are automatically linked via CocoaPods
 
 ## Usage
 
@@ -259,7 +255,12 @@ This plugin currently includes:
 
 To integrate with the real Zettle iOS SDK:
 
-1. **Add SDK dependencies** to `ios/zettle_paypal_flutter.podspec`
+1. **Add the Zettle SDK frameworks** to `ios/iZettleSDK/Frameworks/`:
+   - Copy `iZettleSDK.xcframework` to the Frameworks directory
+   - Copy `iZettlePayments.xcframework` to the Frameworks directory  
+   - Copy `PPRiskMagnes.xcframework` to the Frameworks directory
+   - Copy the corresponding `.dSYM` files for debugging symbols
+
 2. **Uncomment and implement** the actual SDK calls in `ios/Classes/ZettlePaypalFlutterPlugin.swift`
 3. **Configure OAuth credentials** in your iOS project
 4. **Test with actual Zettle card readers**
