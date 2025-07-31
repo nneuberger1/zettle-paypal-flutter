@@ -16,6 +16,9 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		C394978D50167B3AE44AF862 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19458661A6E7D1B5C3406F5A /* Pods_Runner.framework */; };
 		C3A33182D4D6E091E26C1BD5 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3608A78BD54F20246304B2 /* Pods_RunnerTests.framework */; };
+		F9704B392E3B06A900FCBD23 /* iZettlePayments.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9704B372E3B06A900FCBD23 /* iZettlePayments.xcframework */; };
+		F9704B3B2E3B06A900FCBD23 /* iZettleSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9704B382E3B06A900FCBD23 /* iZettleSDK.xcframework */; };
+		F9704B3E2E3B06B600FCBD23 /* PPRiskMagnes.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9704B3D2E3B06B600FCBD23 /* PPRiskMagnes.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,19 +30,6 @@
 			remoteInfo = Runner;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
@@ -65,6 +55,9 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AC3608A78BD54F20246304B2 /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAF71389F848F969A90BAC8B /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		F9704B372E3B06A900FCBD23 /* iZettlePayments.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:42YXYHRXV7:iZettle AB"; lastKnownFileType = wrapper.xcframework; name = iZettlePayments.xcframework; path = .symlinks/plugins/zettle_paypal_flutter/ios/../../../../../../ios/iZettleSDK/Frameworks/iZettlePayments.xcframework; sourceTree = "<group>"; };
+		F9704B382E3B06A900FCBD23 /* iZettleSDK.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:42YXYHRXV7:iZettle AB"; lastKnownFileType = wrapper.xcframework; name = iZettleSDK.xcframework; path = .symlinks/plugins/zettle_paypal_flutter/ios/../../../../../../ios/iZettleSDK/Frameworks/iZettleSDK.xcframework; sourceTree = "<group>"; };
+		F9704B3D2E3B06B600FCBD23 /* PPRiskMagnes.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:XEZPTDFLAS:changching chi"; lastKnownFileType = wrapper.xcframework; name = PPRiskMagnes.xcframework; path = .symlinks/plugins/zettle_paypal_flutter/ios/../../../../../../ios/iZettleSDK/Frameworks/PPRiskMagnes.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,7 +73,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F9704B392E3B06A900FCBD23 /* iZettlePayments.xcframework in Frameworks */,
+				F9704B3B2E3B06A900FCBD23 /* iZettleSDK.xcframework in Frameworks */,
 				C394978D50167B3AE44AF862 /* Pods_Runner.framework in Frameworks */,
+				F9704B3E2E3B06B600FCBD23 /* PPRiskMagnes.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +101,6 @@
 				1DCCA1BDD6038BAB7DE596D4 /* Pods-RunnerTests.release.xcconfig */,
 				7F5F2C8B8241690584A716C6 /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -159,6 +154,9 @@
 		CB6ECE4ED6722F323E7F00EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F9704B3D2E3B06B600FCBD23 /* PPRiskMagnes.xcframework */,
+				F9704B372E3B06A900FCBD23 /* iZettlePayments.xcframework */,
+				F9704B382E3B06A900FCBD23 /* iZettleSDK.xcframework */,
 				19458661A6E7D1B5C3406F5A /* Pods_Runner.framework */,
 				AC3608A78BD54F20246304B2 /* Pods_RunnerTests.framework */,
 			);
@@ -196,7 +194,6 @@
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
-				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				565B9E310B48908640E98341 /* [CP] Embed Pods Frameworks */,
 			);
