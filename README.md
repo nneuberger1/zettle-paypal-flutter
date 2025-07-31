@@ -1,6 +1,13 @@
 # Zettle PayPal Flutter Plugin
 
+**NOTE:** This is not yet fully implemented. I am targeting only iOS at this time. Once I get that fully working, I will release an initial 1.0.0 release. In the future, if a pull request includes an Android version, I will gladly pull that in as well!
+
 A Flutter plugin for integrating Zettle (PayPal) iOS SDK, enabling payment processing and card reader functionality in Flutter applications.
+
+This is all based off the official supported project by Zettle / Paypal.
+https://github.com/iZettle/sdk-ios
+
+Latests SDK includes: v4.43.1
 
 ## Features
 
