@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Build and Run Example App",
+			"type": "shell",
+			"command": "flutter",
+			"args": [
+				"run"
+			],
+			"options": {
+				"cwd": "${workspaceFolder}/example"
+			},
+			"group": "build",
+			"isBackground": false,
+			"problemMatcher": [
+				"$dart-flutter"
+			]
+		}
+	]
+}
