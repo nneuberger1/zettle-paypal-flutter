@@ -32,14 +32,14 @@ class ZettlePaymentDemo extends StatefulWidget {
 
 class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
   final _zettlePlugin = ZettlePaypalFlutter();
-  
+
   String _platformVersion = 'Unknown';
   bool _isAuthenticated = false;
   bool _isCardReaderConnected = false;
   bool _isLoading = false;
   ZettlePaymentResult? _lastPayment;
-  
-  final _amountController = TextEditingController(text: '10.00');
+
+  final _amountController = TextEditingController(text: '1.00');
   final _referenceController = TextEditingController();
   bool _enableTipping = false;
 
@@ -58,23 +58,24 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
   Future<void> _initializePlugin() async {
     setState(() => _isLoading = true);
-    
+
     try {
       // Get platform version
-      final platformVersion = await _zettlePlugin.getPlatformVersion() ?? 'Unknown';
-      
+      final platformVersion =
+          await _zettlePlugin.getPlatformVersion() ?? 'Unknown';
+
       // Initialize the SDK
       await _zettlePlugin.initialize();
-      
+
       // Check authentication status
       final isAuthenticated = await _zettlePlugin.isAuthenticated();
-      
+
       // Check card reader connection
       final isCardReaderConnected = await _zettlePlugin.isCardReaderConnected();
-      
+
       // Get last payment if available
       final lastPayment = await _zettlePlugin.getLastPayment();
-      
+
       if (mounted) {
         setState(() {
           _platformVersion = platformVersion;
@@ -94,17 +95,17 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
   Future<void> _authenticate() async {
     setState(() => _isLoading = true);
-    
+
     try {
       await _zettlePlugin.authenticate();
       final isAuthenticated = await _zettlePlugin.isAuthenticated();
-      
+
       if (mounted) {
         setState(() {
           _isAuthenticated = isAuthenticated;
           _isLoading = false;
         });
-        
+
         if (isAuthenticated) {
           _showSuccessMessage('Successfully authenticated with Zettle');
         }
@@ -119,10 +120,10 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
   Future<void> _logout() async {
     setState(() => _isLoading = true);
-    
+
     try {
       await _zettlePlugin.logout();
-      
+
       if (mounted) {
         setState(() {
           _isAuthenticated = false;
@@ -152,7 +153,10 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
     final amount = double.tryParse(amountText);
     if (amount == null || amount <= 0) {
-      _showErrorDialog('Invalid Amount', 'Please enter a valid positive amount');
+      _showErrorDialog(
+        'Invalid Amount',
+        'Please enter a valid positive amount',
+      );
       return;
     }
 
@@ -161,20 +165,20 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     try {
       final paymentInfo = ZettleCardPaymentInfo(
         amount: ZettleAmount(amount: amount, currencyCode: 'USD'),
-        reference: _referenceController.text.trim().isEmpty 
-            ? null 
+        reference: _referenceController.text.trim().isEmpty
+            ? null
             : _referenceController.text.trim(),
         enableTipping: _enableTipping,
       );
 
       final result = await _zettlePlugin.chargeCard(paymentInfo);
-      
+
       if (mounted) {
         setState(() {
           _lastPayment = result;
           _isLoading = false;
         });
-        
+
         _showPaymentResultDialog(result);
       }
     } catch (e) {
@@ -210,7 +214,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
       );
 
       final result = await _zettlePlugin.refund(refundInfo);
-      
+
       if (mounted) {
         setState(() => _isLoading = false);
         _showRefundResultDialog(result);
@@ -239,6 +243,14 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     }
   }
 
+  Future<void> _showSettings() async {
+    try {
+      await _zettlePlugin.showSettings();
+    } catch (e) {
+      _showErrorDialog('Settings Error', e.toString());
+    }
+  }
+
   void _showErrorDialog(String title, String message) {
     showDialog(
       context: context,
@@ -257,10 +269,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
   void _showSuccessMessage(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: Colors.green,
-      ),
+      SnackBar(content: Text(message), backgroundColor: Colors.green),
     );
   }
 
@@ -273,13 +282,16 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Amount: ${result.amount.amount} ${result.amount.currencyCode}'),
+            Text(
+              'Amount: ${result.amount.amount} ${result.amount.currencyCode}',
+            ),
             if (result.gratuityAmount != null)
-              Text('Tip: ${result.gratuityAmount!.amount} ${result.gratuityAmount!.currencyCode}'),
+              Text(
+                'Tip: ${result.gratuityAmount!.amount} ${result.gratuityAmount!.currencyCode}',
+              ),
             if (result.reference != null)
               Text('Reference: ${result.reference}'),
-            if (result.cardBrand != null)
-              Text('Card: ${result.cardBrand}'),
+            if (result.cardBrand != null) Text('Card: ${result.cardBrand}'),
             if (result.obfuscatedPan != null)
               Text('PAN: ${result.obfuscatedPan}'),
             if (result.authorizationCode != null)
@@ -305,7 +317,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Amount: ${result.amount.amount} ${result.amount.currencyCode}'),
+            Text(
+              'Amount: ${result.amount.amount} ${result.amount.currencyCode}',
+            ),
             if (result.reference != null)
               Text('Reference: ${result.reference}'),
             if (result.receiptId != null)
@@ -350,15 +364,19 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                           ),
                           const SizedBox(height: 8),
                           Text('Platform: $_platformVersion'),
-                          Text('Authenticated: ${_isAuthenticated ? 'Yes' : 'No'}'),
-                          Text('Card Reader Connected: ${_isCardReaderConnected ? 'Yes' : 'No'}'),
+                          Text(
+                            'Authenticated: ${_isAuthenticated ? 'Yes' : 'No'}',
+                          ),
+                          Text(
+                            'Card Reader Connected: ${_isCardReaderConnected ? 'Yes' : 'No'}',
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Authentication Section
                   Card(
                     child: Padding(
@@ -375,7 +393,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: _isAuthenticated ? null : _authenticate,
+                                  onPressed: _isAuthenticated
+                                      ? null
+                                      : _authenticate,
                                   child: const Text('Login'),
                                 ),
                               ),
@@ -392,9 +412,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Payment Section
                   Card(
                     child: Padding(
@@ -413,7 +433,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                               labelText: 'Amount (USD)',
                               border: OutlineInputBorder(),
                             ),
-                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                            keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true,
+                            ),
                           ),
                           const SizedBox(height: 8),
                           TextField(
@@ -437,7 +459,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: _isAuthenticated ? _processPayment : null,
+                              onPressed: _isAuthenticated
+                                  ? _processPayment
+                                  : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.green,
                                 foregroundColor: Colors.white,
@@ -449,8 +473,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: _isAuthenticated && _lastPayment != null 
-                                  ? _processRefund 
+                              onPressed:
+                                  _isAuthenticated && _lastPayment != null
+                                  ? _processRefund
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.orange,
@@ -463,9 +488,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Settings Section
                   Card(
                     child: Padding(
@@ -495,13 +520,25 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _showSettings,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.purple,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text('SDK Settings (Account Flow)'),
+                            ),
+                          ),
                         ],
                       ),
                     ),
                   ),
-                  
+
                   const SizedBox(height: 16),
-                  
+
                   // Last Payment Section
                   if (_lastPayment != null)
                     Card(
@@ -515,7 +552,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             const SizedBox(height: 8),
-                            Text('Amount: ${_lastPayment!.amount.amount} ${_lastPayment!.amount.currencyCode}'),
+                            Text(
+                              'Amount: ${_lastPayment!.amount.amount} ${_lastPayment!.amount.currencyCode}',
+                            ),
                             if (_lastPayment!.reference != null)
                               Text('Reference: ${_lastPayment!.reference}'),
                             if (_lastPayment!.cardBrand != null)

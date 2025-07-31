@@ -9,7 +9,8 @@ abstract class ZettlePaypalFlutterPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static ZettlePaypalFlutterPlatform _instance = MethodChannelZettlePaypalFlutter();
+  static ZettlePaypalFlutterPlatform _instance =
+      MethodChannelZettlePaypalFlutter();
 
   /// The default instance of [ZettlePaypalFlutterPlatform] to use.
   ///
@@ -32,6 +33,11 @@ abstract class ZettlePaypalFlutterPlatform extends PlatformInterface {
   /// Initialize the Zettle SDK
   Future<void> initialize() {
     throw UnimplementedError('initialize() has not been implemented.');
+  }
+
+  /// Initialize the Zettle SDK explicitly (like AppDelegate)
+  Future<void> initializeSDK() {
+    throw UnimplementedError('initializeSDK() has not been implemented.');
   }
 
   /// Check if the SDK is authenticated
@@ -61,12 +67,16 @@ abstract class ZettlePaypalFlutterPlatform extends PlatformInterface {
 
   /// Check if card reader is connected
   Future<bool> isCardReaderConnected() {
-    throw UnimplementedError('isCardReaderConnected() has not been implemented.');
+    throw UnimplementedError(
+      'isCardReaderConnected() has not been implemented.',
+    );
   }
 
   /// Show card reader settings
   Future<void> showCardReaderSettings() {
-    throw UnimplementedError('showCardReaderSettings() has not been implemented.');
+    throw UnimplementedError(
+      'showCardReaderSettings() has not been implemented.',
+    );
   }
 
   /// Get last payment information
@@ -77,5 +87,10 @@ abstract class ZettlePaypalFlutterPlatform extends PlatformInterface {
   /// Show payment settings
   Future<void> showPaymentSettings() {
     throw UnimplementedError('showPaymentSettings() has not been implemented.');
+  }
+
+  /// Show SDK settings (equivalent to presentSettings in iOS SDK)
+  Future<void> showSettings() {
+    throw UnimplementedError('showSettings() has not been implemented.');
   }
 }

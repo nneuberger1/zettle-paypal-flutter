@@ -48,7 +48,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>zettle-paypal-flutter-example</string>
+				<string>myapp</string>
 			</array>
 		</dict>
 	</array>

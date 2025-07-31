@@ -13,7 +13,9 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
 
   @override
   Future<String?> getPlatformVersion() async {
-    final version = await methodChannel.invokeMethod<String>('getPlatformVersion');
+    final version = await methodChannel.invokeMethod<String>(
+      'getPlatformVersion',
+    );
     return version;
   }
 
@@ -21,6 +23,15 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
   Future<void> initialize() async {
     try {
       await methodChannel.invokeMethod('initialize');
+    } on PlatformException catch (e) {
+      throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
+    }
+  }
+
+  @override
+  Future<void> initializeSDK() async {
+    try {
+      await methodChannel.invokeMethod('initializeSDK');
     } on PlatformException catch (e) {
       throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
     }
@@ -55,7 +66,9 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
   }
 
   @override
-  Future<ZettlePaymentResult> chargeCard(ZettleCardPaymentInfo paymentInfo) async {
+  Future<ZettlePaymentResult> chargeCard(
+    ZettleCardPaymentInfo paymentInfo,
+  ) async {
     try {
       final result = await methodChannel.invokeMethod<Map<String, dynamic>>(
         'chargeCard',
@@ -89,7 +102,9 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
   @override
   Future<bool> isCardReaderConnected() async {
     try {
-      final result = await methodChannel.invokeMethod<bool>('isCardReaderConnected');
+      final result = await methodChannel.invokeMethod<bool>(
+        'isCardReaderConnected',
+      );
       return result ?? false;
     } on PlatformException catch (e) {
       throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
@@ -108,7 +123,9 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
   @override
   Future<ZettlePaymentResult?> getLastPayment() async {
     try {
-      final result = await methodChannel.invokeMethod<Map<String, dynamic>>('getLastPayment');
+      final result = await methodChannel.invokeMethod<Map<String, dynamic>>(
+        'getLastPayment',
+      );
       if (result == null) return null;
       return ZettlePaymentResult.fromMap(result);
     } on PlatformException catch (e) {
@@ -120,6 +137,15 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
   Future<void> showPaymentSettings() async {
     try {
       await methodChannel.invokeMethod('showPaymentSettings');
+    } on PlatformException catch (e) {
+      throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
+    }
+  }
+
+  @override
+  Future<void> showSettings() async {
+    try {
+      await methodChannel.invokeMethod('showSettings');
     } on PlatformException catch (e) {
       throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
     }
