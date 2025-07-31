@@ -93,6 +93,24 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     }
   }
 
+  Future<void> _initializeSDKExplicitly() async {
+    setState(() => _isLoading = true);
+
+    try {
+      await _zettlePlugin.initializeSDK();
+
+      if (mounted) {
+        setState(() => _isLoading = false);
+        _showSuccessMessage('SDK initialized successfully');
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+        _showErrorDialog('SDK Initialization Error', e.toString());
+      }
+    }
+  }
+
   Future<void> _authenticate() async {
     setState(() => _isLoading = true);
 
@@ -387,6 +405,22 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                           Text(
                             'Authentication',
                             style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _isLoading
+                                  ? null
+                                  : _initializeSDKExplicitly,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.orange,
+                                foregroundColor: Colors.white,
+                              ),
+                              child: const Text(
+                                'Initialize SDK (AppDelegate Style)',
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 16),
                           Row(
