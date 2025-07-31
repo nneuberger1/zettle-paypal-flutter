@@ -226,7 +226,7 @@ Result of a successful refund transaction.
 
 ## Example App
 
-![Zettle Logo](assets/zettle_paypal_flutter_demo_example1.png)
+<img src="assets/zettle_paypal_flutter_demo_example1.png" alt="Zettle Logo" width="75%" />
 
 
 The example app demonstrates all plugin features:
