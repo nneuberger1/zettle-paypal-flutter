@@ -280,4 +280,4 @@ Ensure your `example/ios/Runner/Info.plist` includes all required permissions an
 
 For technical support:
 - [Zettle Developer Support](https://ext-izettle.atlassian.net/servicedesk/customer/portal/3)
-- [Plugin Issues](https://github.com/libertytechstacks/zettle-paypal-flutter/issues)
+- [Plugin Issues](https://github.com/nneuberger1/zettle-paypal-flutter/issues)

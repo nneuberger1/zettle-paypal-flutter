@@ -10,9 +10,9 @@ Pod::Spec.new do |s|
 Flutter plugin for Zettle (PayPal) iOS SDK integration, enabling payment processing and card reader functionality.
 This plugin provides a Dart API wrapper around the native Zettle iOS SDK.
                        DESC
-  s.homepage         = 'https://github.com/libertytechstacks/zettle-paypal-flutter'
+  s.homepage         = 'https://github.com/nneuberger1/zettle-paypal-flutter'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Liberty Tech Stacks' => 'contact@libertytechstacks.com' }
+  s.author           = { 'Liberty Tech Stacks' => 'nick.neuberger@libertytechstacks.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'

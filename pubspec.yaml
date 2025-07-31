@@ -1,7 +1,7 @@
 name: zettle_paypal_flutter
 description: "Flutter plugin for Zettle (PayPal) iOS SDK integration, enabling payment processing and card reader functionality."
 version: 0.0.1
-homepage: https://github.com/libertytechstacks/zettle-paypal-flutter
+homepage: https://github.com/nneuberger1/zettle-paypal-flutter
 
 environment:
   sdk: ^3.8.1
