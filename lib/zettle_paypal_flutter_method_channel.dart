@@ -29,9 +29,15 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
   }
 
   @override
-  Future<void> initializeSDK() async {
+  Future<void> initializeSDK({
+    required String clientId,
+    required String callbackURL,
+  }) async {
     try {
-      await methodChannel.invokeMethod('initializeSDK');
+      await methodChannel.invokeMethod('initializeSDK', {
+        'clientId': clientId,
+        'callbackURL': callbackURL,
+      });
     } on PlatformException catch (e) {
       throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
     }

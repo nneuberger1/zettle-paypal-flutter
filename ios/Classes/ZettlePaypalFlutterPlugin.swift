@@ -25,7 +25,13 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
             initialize(result: result)
 
         case "initializeSDK":
-            initializeSDK(result: result)
+            guard let arguments = call.arguments as? [String: Any] else {
+                result(
+                    FlutterError(
+                        code: "INVALID_PARAMETER", message: "Invalid arguments", details: nil))
+                return
+            }
+            initializeSDK(arguments: arguments, result: result)
 
         case "isAuthenticated":
             isAuthenticated(result: result)
@@ -83,8 +89,21 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
         result(nil)
     }
 
-    private func initializeSDK(result: @escaping FlutterResult) {
+    private func initializeSDK(arguments: [String: Any], result: @escaping FlutterResult) {
         print("ZettlePaypalFlutterPlugin: Explicit SDK initialization called")
+
+        // Extract parameters
+        guard let clientId = arguments["clientId"] as? String,
+            let callbackURL = arguments["callbackURL"] as? String
+        else {
+            result(
+                FlutterError(
+                    code: "INVALID_PARAMETER",
+                    message: "Missing required parameters: clientId and callbackURL",
+                    details: nil
+                ))
+            return
+        }
 
         // If already initialized, return success
         if isSDKInitialized {
@@ -112,10 +131,8 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
             print("ZettlePaypalFlutterPlugin: Creating authorization provider...")
 
             // Create authorization provider exactly like in AppDelegate.m
-            /// TODO pass these in and purge before commits.
-
-            let clientId = "temp_add_client_id_from_portal"
-            let callbackURL = "myapp://oauth/callback"
+            print("ZettlePaypalFlutterPlugin: Using clientId: \(clientId)")
+            print("ZettlePaypalFlutterPlugin: Using callbackURL: \(callbackURL)")
 
             // Try creating authorization provider with try-catch
             let authorizationProvider: iZettleSDKAuthorization
@@ -220,6 +237,8 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
                 print("ZettlePaypalFlutterPlugin: Creating authorization provider...")
 
                 // Initialize Zettle SDK with proper authorization provider
+                // Note: Using default values for lazy initialization since parameters aren't available here
+                // For explicit initialization, use initializeSDK() with custom parameters
                 let authProvider = try iZettleSDKAuthorization(
                     clientID: "temp_add_client_id_from_portal",
                     callbackURL: URL(string: "myapp://oauth/callback")!,

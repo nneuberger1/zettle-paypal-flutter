@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:zettle_paypal_flutter/zettle_paypal_flutter.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   runApp(const MyApp());
 }
 
@@ -97,7 +98,10 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     setState(() => _isLoading = true);
 
     try {
-      await _zettlePlugin.initializeSDK();
+      await _zettlePlugin.initializeSDK(
+        clientId: dotenv.env['ZETTLE_CLIENT_ID'] ?? '',
+        callbackURL: 'myapp://oauth/callback',
+      );
 
       if (mounted) {
         setState(() => _isLoading = false);

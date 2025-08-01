@@ -36,7 +36,10 @@ abstract class ZettlePaypalFlutterPlatform extends PlatformInterface {
   }
 
   /// Initialize the Zettle SDK explicitly (like AppDelegate)
-  Future<void> initializeSDK() {
+  Future<void> initializeSDK({
+    required String clientId,
+    required String callbackURL,
+  }) {
     throw UnimplementedError('initializeSDK() has not been implemented.');
   }
 

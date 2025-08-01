@@ -30,8 +30,17 @@ class ZettlePaypalFlutter {
   /// This performs the actual SDK initialization similar to what
   /// happens in the sample app's AppDelegate. This creates the
   /// authorization provider and starts the SDK properly.
-  Future<void> initializeSDK() {
-    return ZettlePaypalFlutterPlatform.instance.initializeSDK();
+  ///
+  /// [clientId] - The Zettle OAuth client ID
+  /// [callbackURL] - The OAuth callback URL for your application
+  Future<void> initializeSDK({
+    required String clientId,
+    required String callbackURL,
+  }) {
+    return ZettlePaypalFlutterPlatform.instance.initializeSDK(
+      clientId: clientId,
+      callbackURL: callbackURL,
+    );
   }
 
   /// Check if the SDK is authenticated with Zettle services
