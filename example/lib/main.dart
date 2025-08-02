@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zettle_paypal_flutter/zettle_paypal_flutter.dart';
 
 void main() async {
@@ -100,6 +101,10 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
       );
 
       // final isAuthenticated = await _zettlePlugin.isAuthenticated();
+      /// TODO temp setting to true. above await hangs.
+      _isAuthenticated = true;
+      // generate a uuid for each transaction. Using v7 for timestamp sorting for performance
+      _referenceController.text = Uuid().v7();
 
       if (mounted) {
         setState(() => _isLoading = false);
