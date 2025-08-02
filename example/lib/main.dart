@@ -15,10 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Zettle PayPal Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, visualDensity: VisualDensity.adaptivePlatformDensity),
       home: const ZettlePaymentDemo(),
     );
   }
@@ -62,8 +59,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
     try {
       // Get platform version
-      final platformVersion =
-          await _zettlePlugin.getPlatformVersion() ?? 'Unknown';
+      final platformVersion = await _zettlePlugin.getPlatformVersion() ?? 'Unknown';
 
       // Initialize the SDK
       await _zettlePlugin.initialize();
@@ -100,8 +96,10 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     try {
       await _zettlePlugin.initializeSDK(
         clientId: dotenv.env['ZETTLE_CLIENT_ID'] ?? '',
-        callbackURL: 'myapp://oauth/callback',
+        callbackURL: dotenv.env['ZETTLE_CALLBACK_URL'] ?? 'myapp://oauth/callback',
       );
+
+      // final isAuthenticated = await _zettlePlugin.isAuthenticated();
 
       if (mounted) {
         setState(() => _isLoading = false);
@@ -175,10 +173,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
 
     final amount = double.tryParse(amountText);
     if (amount == null || amount <= 0) {
-      _showErrorDialog(
-        'Invalid Amount',
-        'Please enter a valid positive amount',
-      );
+      _showErrorDialog('Invalid Amount', 'Please enter a valid positive amount');
       return;
     }
 
@@ -187,9 +182,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     try {
       final paymentInfo = ZettleCardPaymentInfo(
         amount: ZettleAmount(amount: amount, currencyCode: 'USD'),
-        reference: _referenceController.text.trim().isEmpty
-            ? null
-            : _referenceController.text.trim(),
+        reference: _referenceController.text.trim().isEmpty ? null : _referenceController.text.trim(),
         enableTipping: _enableTipping,
       );
 
@@ -279,20 +272,13 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
       builder: (context) => AlertDialog(
         title: Text(title),
         content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
+        actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK'))],
       ),
     );
   }
 
   void _showSuccessMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.green),
-    );
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message), backgroundColor: Colors.green));
   }
 
   void _showPaymentResultDialog(ZettlePaymentResult result) {
@@ -304,28 +290,16 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Amount: ${result.amount.amount} ${result.amount.currencyCode}',
-            ),
+            Text('Amount: ${result.amount.amount} ${result.amount.currencyCode}'),
             if (result.gratuityAmount != null)
-              Text(
-                'Tip: ${result.gratuityAmount!.amount} ${result.gratuityAmount!.currencyCode}',
-              ),
-            if (result.reference != null)
-              Text('Reference: ${result.reference}'),
+              Text('Tip: ${result.gratuityAmount!.amount} ${result.gratuityAmount!.currencyCode}'),
+            if (result.reference != null) Text('Reference: ${result.reference}'),
             if (result.cardBrand != null) Text('Card: ${result.cardBrand}'),
-            if (result.obfuscatedPan != null)
-              Text('PAN: ${result.obfuscatedPan}'),
-            if (result.authorizationCode != null)
-              Text('Auth Code: ${result.authorizationCode}'),
+            if (result.obfuscatedPan != null) Text('PAN: ${result.obfuscatedPan}'),
+            if (result.authorizationCode != null) Text('Auth Code: ${result.authorizationCode}'),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
+        actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK'))],
       ),
     );
   }
@@ -339,21 +313,12 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Amount: ${result.amount.amount} ${result.amount.currencyCode}',
-            ),
-            if (result.reference != null)
-              Text('Reference: ${result.reference}'),
-            if (result.receiptId != null)
-              Text('Receipt ID: ${result.receiptId}'),
+            Text('Amount: ${result.amount.amount} ${result.amount.currencyCode}'),
+            if (result.reference != null) Text('Reference: ${result.reference}'),
+            if (result.receiptId != null) Text('Receipt ID: ${result.receiptId}'),
           ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('OK'),
-          ),
-        ],
+        actions: [TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK'))],
       ),
     );
   }
@@ -380,18 +345,11 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Status',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
+                          Text('Status', style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 8),
                           Text('Platform: $_platformVersion'),
-                          Text(
-                            'Authenticated: ${_isAuthenticated ? 'Yes' : 'No'}',
-                          ),
-                          Text(
-                            'Card Reader Connected: ${_isCardReaderConnected ? 'Yes' : 'No'}',
-                          ),
+                          Text('Authenticated: ${_isAuthenticated ? 'Yes' : 'No'}'),
+                          Text('Card Reader Connected: ${_isCardReaderConnected ? 'Yes' : 'No'}'),
                         ],
                       ),
                     ),
@@ -406,24 +364,14 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Authentication',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
+                          Text('Authentication', style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 16),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: _isLoading
-                                  ? null
-                                  : _initializeSDKExplicitly,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                foregroundColor: Colors.white,
-                              ),
-                              child: const Text(
-                                'Initialize SDK (AppDelegate Style)',
-                              ),
+                              onPressed: _isLoading ? null : _initializeSDKExplicitly,
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white),
+                              child: const Text('Initialize SDK (AppDelegate Style)'),
                             ),
                           ),
                           const SizedBox(height: 16),
@@ -431,18 +379,13 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                             children: [
                               Expanded(
                                 child: ElevatedButton(
-                                  onPressed: _isAuthenticated
-                                      ? null
-                                      : _authenticate,
+                                  onPressed: _isAuthenticated ? null : _authenticate,
                                   child: const Text('Login'),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child: ElevatedButton(
-                                  onPressed: _isAuthenticated ? _logout : null,
-                                  child: const Text('Logout'),
-                                ),
+                                child: ElevatedButton(onPressed: _isAuthenticated ? _logout : null, child: const Text('Logout')),
                               ),
                             ],
                           ),
@@ -460,28 +403,17 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Payment',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
+                          Text('Payment', style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 16),
                           TextField(
                             controller: _amountController,
-                            decoration: const InputDecoration(
-                              labelText: 'Amount (USD)',
-                              border: OutlineInputBorder(),
-                            ),
-                            keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true,
-                            ),
+                            decoration: const InputDecoration(labelText: 'Amount (USD)', border: OutlineInputBorder()),
+                            keyboardType: const TextInputType.numberWithOptions(decimal: true),
                           ),
                           const SizedBox(height: 8),
                           TextField(
                             controller: _referenceController,
-                            decoration: const InputDecoration(
-                              labelText: 'Reference (optional)',
-                              border: OutlineInputBorder(),
-                            ),
+                            decoration: const InputDecoration(labelText: 'Reference (optional)', border: OutlineInputBorder()),
                           ),
                           const SizedBox(height: 8),
                           CheckboxListTile(
@@ -497,13 +429,8 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed: _isAuthenticated
-                                  ? _processPayment
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                foregroundColor: Colors.white,
-                              ),
+                              onPressed: _isAuthenticated ? _processPayment : null,
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white),
                               child: const Text('Process Payment'),
                             ),
                           ),
@@ -511,14 +438,8 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                              onPressed:
-                                  _isAuthenticated && _lastPayment != null
-                                  ? _processRefund
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.orange,
-                                foregroundColor: Colors.white,
-                              ),
+                              onPressed: _isAuthenticated && _lastPayment != null ? _processRefund : null,
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white),
                               child: const Text('Refund Last Payment'),
                             ),
                           ),
@@ -536,10 +457,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Settings',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
+                          Text('Settings', style: Theme.of(context).textTheme.headlineSmall),
                           const SizedBox(height: 16),
                           Row(
                             children: [
@@ -551,10 +469,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                               ),
                               const SizedBox(width: 8),
                               Expanded(
-                                child: ElevatedButton(
-                                  onPressed: _showPaymentSettings,
-                                  child: const Text('Payment Settings'),
-                                ),
+                                child: ElevatedButton(onPressed: _showPaymentSettings, child: const Text('Payment Settings')),
                               ),
                             ],
                           ),
@@ -563,10 +478,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: _showSettings,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.purple,
-                                foregroundColor: Colors.white,
-                              ),
+                              style: ElevatedButton.styleFrom(backgroundColor: Colors.purple, foregroundColor: Colors.white),
                               child: const Text('SDK Settings (Account Flow)'),
                             ),
                           ),
@@ -585,20 +497,12 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Last Payment',
-                              style: Theme.of(context).textTheme.headlineSmall,
-                            ),
+                            Text('Last Payment', style: Theme.of(context).textTheme.headlineSmall),
                             const SizedBox(height: 8),
-                            Text(
-                              'Amount: ${_lastPayment!.amount.amount} ${_lastPayment!.amount.currencyCode}',
-                            ),
-                            if (_lastPayment!.reference != null)
-                              Text('Reference: ${_lastPayment!.reference}'),
-                            if (_lastPayment!.cardBrand != null)
-                              Text('Card: ${_lastPayment!.cardBrand}'),
-                            if (_lastPayment!.obfuscatedPan != null)
-                              Text('PAN: ${_lastPayment!.obfuscatedPan}'),
+                            Text('Amount: ${_lastPayment!.amount.amount} ${_lastPayment!.amount.currencyCode}'),
+                            if (_lastPayment!.reference != null) Text('Reference: ${_lastPayment!.reference}'),
+                            if (_lastPayment!.cardBrand != null) Text('Card: ${_lastPayment!.cardBrand}'),
+                            if (_lastPayment!.obfuscatedPan != null) Text('PAN: ${_lastPayment!.obfuscatedPan}'),
                           ],
                         ),
                       ),
