@@ -309,3 +309,23 @@ For issues related to:
 - Built on top of the [Zettle iOS SDK](https://developer.zettle.com/docs/payment-integrations/ios-sdk)
 - Inspired by the need for Flutter integration with Zettle payment solutions
 
+## Inspirations
+
+I give God the glory for this work. I dedicate it to Jesus and what He did on the cross ✝️ for that free gift of eternal salvation. If you read this, and don't know Him, please let me know. I will be glad to share with you my testimony of transformation and following Him daily. There is nothing else that can save us from death and give us eternal life
+
+**If you have not put your faith in Jesus:**
+
+- John 3:3 - Jesus answered and said to him, “Most assuredly, I say to you, unless one is born [a]again, he cannot see the kingdom of God.”
+- John 3:16 - For God so loved the world that He gave His only begotten Son, that whoever believes in Him should not perish but have everlasting life.
+- John 14:6 - Jesus said to him, “I am the way, the truth, and the life. No one comes to the Father except through Me."
+- Romans 3:23 - for all have sinned and fall short of the glory of God
+- Romans 6:23 - For the wages of sin is death, but the [a]gift of God is eternal life in Christ Jesus our Lord.
+
+**If you ARE a believer:**
+
+and have put your trust in Jesus, well here are some **amazingly** good scriptures to help you in your walk with the LORD and King of Kings!!**
+
+- Hebrews 4:12 - For the word of God is living and powerful, and sharper than any two-edged sword, piercing even to the division of soul and spirit, and of joints and marrow, and is a discerner of the thoughts and intents of the heart.
+- Acts 4:12 - Nor is there salvation in any other, for there is no other name under heaven given among men by which we must be saved.
+- Ephesians 6 (Full Armor of God)
+- Read both Romans & Acts. They are powerful reads for a new believer
