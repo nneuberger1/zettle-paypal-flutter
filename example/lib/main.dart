@@ -100,7 +100,9 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
         callbackURL: dotenv.env['ZETTLE_CALLBACK_URL'] ?? 'myapp://oauth/callback',
       );
 
+      /// fails at: iZettleSDK.shared().isLoggedIn
       // final isAuthenticated = await _zettlePlugin.isAuthenticated();
+
       /// TODO temp setting to true. above await hangs.
       _isAuthenticated = true;
       // generate a uuid for each transaction. Using v7 for timestamp sorting for performance
@@ -202,6 +204,7 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
         _showPaymentResultDialog(result);
       }
     } catch (e) {
+      print('[_processPayment] Payment Error: $e');
       if (mounted) {
         setState(() => _isLoading = false);
         if (e is ZettlePaymentCancelledException) {

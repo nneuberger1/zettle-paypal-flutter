@@ -494,49 +494,29 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
 
         let reference = arguments["reference"] as? String
         let enableTipping = arguments["enableTipping"] as? Bool ?? false
+        let iZettleAmount = NSDecimalNumber(value: amount)
 
-        // TODO: Integrate with actual Zettle SDK payment
-        // let iZettleAmount = iZettleSDKAmount(amount: NSDecimalNumber(value: amount), currencyID: iZettleSDKCurrencyID(rawValue: currencyCode)!)
-        // let paymentInfo = iZettleSDKPaymentInfo(amount: iZettleAmount, reference: reference ?? UUID().uuidString)
+         guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
+             result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Could not find root view controller", details: nil))
+             return
+         }
 
-        // guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
-        //     result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Could not find root view controller", details: nil))
-        //     return
-        // }
-
-        // iZettleSDK.shared().charge(amount: iZettleAmount, enableTipping: enableTipping, reference: reference, presentFrom: viewController) { [weak self] (paymentInfo, error) in
-        //     DispatchQueue.main.async {
-        //         if let error = error {
-        //             if error.code == iZettleSDKErrorCode.userCancel.rawValue {
-        //                 result(FlutterError(code: "PAYMENT_CANCELLED", message: "Payment was cancelled", details: nil))
-        //             } else {
-        //                 result(FlutterError(code: "PAYMENT_FAILED", message: error.localizedDescription, details: nil))
-        //             }
-        //         } else if let paymentInfo = paymentInfo {
-        //             let paymentResult = self?.createPaymentResultDictionary(from: paymentInfo)
-        //             result(paymentResult)
-        //         }
-        //     }
-        // }
-
-        // For now, simulate a successful payment
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            let mockPaymentResult =
-                [
-                    "amount": [
-                        "amount": amount,
-                        "currencyCode": currencyCode,
-                    ],
-                    "reference": reference ?? "MOCK_REF_" + UUID().uuidString.prefix(8),
-                    "entryMode": "CHIP",
-                    "authorizationCode": "AUTH_" + String(Int.random(in: 100000...999999)),
-                    "obfuscatedPan": "**** **** **** 1234",
-                    "cardBrand": "VISA",
-                    "receiptId": "RECEIPT_" + UUID().uuidString.prefix(8),
-                ] as [String: Any]
-
-            result(mockPaymentResult)
-        }
+         iZettleSDK.shared().charge(amount: iZettleAmount, enableTipping: enableTipping, reference: reference, presentFrom: viewController) { [weak self] (paymentInfo, error) in
+             DispatchQueue.main.async {
+                 if let error = error {
+                     print("ZettlePaypalFlutterPlugin: Payment failed: \(error.localizedDescription)")
+                     
+//                     if error.code == iZettleSDKErrorCode.userCancel.rawValue {
+//                         result(FlutterError(code: "PAYMENT_CANCELLED", message: "Payment was cancelled", details: nil))
+//                     } else {
+                         result(FlutterError(code: "PAYMENT_FAILED", message: error.localizedDescription, details: nil))
+//                     }
+                 } else if let paymentInfo = paymentInfo {
+                     let paymentResult = self?.createPaymentResultDictionary(from: paymentInfo)
+                     result(paymentResult)
+                 }
+             }
+         }
     }
 
     private func refund(arguments: [String: Any], result: @escaping FlutterResult) {
@@ -664,23 +644,23 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
     // MARK: - Helper Methods
 
     // TODO: Implement when integrating actual SDK
-    // private func createPaymentResultDictionary(from paymentInfo: iZettleSDKPaymentInfo) -> [String: Any] {
-    //     return [
-    //         "amount": [
-    //             "amount": paymentInfo.amount.amount.doubleValue,
-    //             "currencyCode": paymentInfo.amount.currencyID.rawValue
-    //         ],
-    //         "gratuityAmount": paymentInfo.gratuityAmount != nil ? [
-    //             "amount": paymentInfo.gratuityAmount!.amount.doubleValue,
-    //             "currencyCode": paymentInfo.gratuityAmount!.currencyID.rawValue
-    //         ] : nil,
-    //         "reference": paymentInfo.reference,
-    //         "entryMode": paymentInfo.entryMode?.rawValue,
-    //         "authorizationCode": paymentInfo.authorizationCode,
-    //         "obfuscatedPan": paymentInfo.obfuscatedPan,
-    //         "panHash": paymentInfo.panHash,
-    //         "cardBrand": paymentInfo.cardBrand,
-    //         "receiptId": paymentInfo.receiptId
-    //     ]
-    // }
+     private func createPaymentResultDictionary(from paymentInfo: iZettleSDKPaymentInfo) -> [String: Any] {
+         return [
+             "amount": [
+                 "amount": paymentInfo.amount.doubleValue,
+//                 "currencyCode": paymentInfo.amount.currencyID.rawValue
+             ],
+//             "gratuityAmount": paymentInfo.gratuityAmount != nil ? [
+//                 "amount": paymentInfo.gratuityAmount!.amount.doubleValue,
+//                 "currencyCode": paymentInfo.gratuityAmount!.currencyID.rawValue
+//             ] : nil,
+//             "reference": paymentInfo.reference,
+//             "entryMode": paymentInfo.entryMode?.rawValue,
+             "authorizationCode": paymentInfo.authorizationCode,
+             "obfuscatedPan": paymentInfo.obfuscatedPan,
+             "panHash": paymentInfo.panHash,
+             "cardBrand": paymentInfo.cardBrand,
+//             "receiptId": paymentInfo.receiptId
+         ]
+     }
 }
