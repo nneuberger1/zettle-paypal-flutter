@@ -7,12 +7,17 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 class MockZettlePaypalFlutterPlatform
     with MockPlatformInterfaceMixin
     implements ZettlePaypalFlutterPlatform {
-
   @override
   Future<String?> getPlatformVersion() => Future.value('42');
 
   @override
   Future<void> initialize() => Future.value();
+
+  @override
+  Future<void> initializeSDK({
+    required String clientId,
+    required String callbackURL,
+  }) => Future.value();
 
   @override
   Future<bool> isAuthenticated() => Future.value(false);
@@ -25,17 +30,21 @@ class MockZettlePaypalFlutterPlatform
 
   @override
   Future<ZettlePaymentResult> chargeCard(ZettleCardPaymentInfo paymentInfo) =>
-      Future.value(ZettlePaymentResult(
-        amount: paymentInfo.amount,
-        reference: paymentInfo.reference,
-      ));
+      Future.value(
+        ZettlePaymentResult(
+          amount: paymentInfo.amount,
+          reference: paymentInfo.reference,
+        ),
+      );
 
   @override
   Future<ZettleRefundResult> refund(ZettleRefundInfo refundInfo) =>
-      Future.value(ZettleRefundResult(
-        amount: refundInfo.amount,
-        reference: refundInfo.reference,
-      ));
+      Future.value(
+        ZettleRefundResult(
+          amount: refundInfo.amount,
+          reference: refundInfo.reference,
+        ),
+      );
 
   @override
   Future<bool> isCardReaderConnected() => Future.value(true);
@@ -48,10 +57,14 @@ class MockZettlePaypalFlutterPlatform
 
   @override
   Future<void> showPaymentSettings() => Future.value();
+
+  @override
+  Future<void> showSettings() => Future.value();
 }
 
 void main() {
-  final ZettlePaypalFlutterPlatform initialPlatform = ZettlePaypalFlutterPlatform.instance;
+  final ZettlePaypalFlutterPlatform initialPlatform =
+      ZettlePaypalFlutterPlatform.instance;
 
   test('$MethodChannelZettlePaypalFlutter is the default instance', () {
     expect(initialPlatform, isInstanceOf<MethodChannelZettlePaypalFlutter>());
@@ -59,7 +72,8 @@ void main() {
 
   test('getPlatformVersion', () async {
     ZettlePaypalFlutter zettlePaypalFlutterPlugin = ZettlePaypalFlutter();
-    MockZettlePaypalFlutterPlatform fakePlatform = MockZettlePaypalFlutterPlatform();
+    MockZettlePaypalFlutterPlatform fakePlatform =
+        MockZettlePaypalFlutterPlatform();
     ZettlePaypalFlutterPlatform.instance = fakePlatform;
 
     expect(await zettlePaypalFlutterPlugin.getPlatformVersion(), '42');
@@ -67,7 +81,8 @@ void main() {
 
   test('initialize', () async {
     ZettlePaypalFlutter zettlePaypalFlutterPlugin = ZettlePaypalFlutter();
-    MockZettlePaypalFlutterPlatform fakePlatform = MockZettlePaypalFlutterPlatform();
+    MockZettlePaypalFlutterPlatform fakePlatform =
+        MockZettlePaypalFlutterPlatform();
     ZettlePaypalFlutterPlatform.instance = fakePlatform;
 
     expect(() => zettlePaypalFlutterPlugin.initialize(), returnsNormally);
@@ -75,7 +90,8 @@ void main() {
 
   test('chargeCard', () async {
     ZettlePaypalFlutter zettlePaypalFlutterPlugin = ZettlePaypalFlutter();
-    MockZettlePaypalFlutterPlatform fakePlatform = MockZettlePaypalFlutterPlatform();
+    MockZettlePaypalFlutterPlatform fakePlatform =
+        MockZettlePaypalFlutterPlatform();
     ZettlePaypalFlutterPlatform.instance = fakePlatform;
 
     final paymentInfo = ZettleCardPaymentInfo(
@@ -91,7 +107,8 @@ void main() {
 
   test('refund', () async {
     ZettlePaypalFlutter zettlePaypalFlutterPlugin = ZettlePaypalFlutter();
-    MockZettlePaypalFlutterPlatform fakePlatform = MockZettlePaypalFlutterPlatform();
+    MockZettlePaypalFlutterPlatform fakePlatform =
+        MockZettlePaypalFlutterPlatform();
     ZettlePaypalFlutterPlatform.instance = fakePlatform;
 
     final refundInfo = ZettleRefundInfo(
@@ -107,7 +124,8 @@ void main() {
 
   test('isCardReaderConnected', () async {
     ZettlePaypalFlutter zettlePaypalFlutterPlugin = ZettlePaypalFlutter();
-    MockZettlePaypalFlutterPlatform fakePlatform = MockZettlePaypalFlutterPlatform();
+    MockZettlePaypalFlutterPlatform fakePlatform =
+        MockZettlePaypalFlutterPlatform();
     ZettlePaypalFlutterPlatform.instance = fakePlatform;
 
     expect(await zettlePaypalFlutterPlugin.isCardReaderConnected(), true);
