@@ -120,52 +120,6 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
     }
   }
 
-  Future<void> _authenticate() async {
-    setState(() => _isLoading = true);
-
-    try {
-      await _zettlePlugin.authenticate();
-      final isAuthenticated = await _zettlePlugin.isAuthenticated();
-
-      if (mounted) {
-        setState(() {
-          _isAuthenticated = isAuthenticated;
-          _isLoading = false;
-        });
-
-        if (isAuthenticated) {
-          _showSuccessMessage('Successfully authenticated with Zettle');
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        _showErrorDialog('Authentication Error', e.toString());
-      }
-    }
-  }
-
-  Future<void> _logout() async {
-    setState(() => _isLoading = true);
-
-    try {
-      await _zettlePlugin.logout();
-
-      if (mounted) {
-        setState(() {
-          _isAuthenticated = false;
-          _isLoading = false;
-        });
-        _showSuccessMessage('Successfully logged out');
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-        _showErrorDialog('Logout Error', e.toString());
-      }
-    }
-  }
-
   Future<void> _processPayment() async {
     if (!_isAuthenticated) {
       _showErrorDialog('Not Authenticated', 'Please authenticate first');
@@ -381,21 +335,6 @@ class _ZettlePaymentDemoState extends State<ZettlePaymentDemo> {
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.orange, foregroundColor: Colors.white),
                               child: const Text('Initialize SDK (AppDelegate Style)'),
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: _isAuthenticated ? null : _authenticate,
-                                  child: const Text('Login'),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: ElevatedButton(onPressed: _isAuthenticated ? _logout : null, child: const Text('Logout')),
-                              ),
-                            ],
                           ),
                         ],
                       ),
