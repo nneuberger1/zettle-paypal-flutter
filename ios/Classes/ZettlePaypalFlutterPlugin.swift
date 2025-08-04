@@ -529,10 +529,12 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
                                 details: nil))
                         return
                     }
-                    print("ZettlePaypalFlutterPlugin: Payment successful")
-                    print("ZettlePaypalFlutterPlugin: Payment info: \(paymentInfo)")
+
+                    // print(
+                    //     "ZettlePaypalFlutterPlugin: Payment successful - Payment info: \(paymentInfo)"
+                    // )
                     let paymentResult = self.createPaymentResultDictionary(from: paymentInfo)
-                    print("ZettlePaypalFlutterPlugin: Payment result: \(paymentResult)")
+                    // print("ZettlePaypalFlutterPlugin: Payment result: \(paymentResult)")
                     result(paymentResult)
                 } else {
                     result(
