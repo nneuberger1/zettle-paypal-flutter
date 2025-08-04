@@ -496,27 +496,52 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
         let enableTipping = arguments["enableTipping"] as? Bool ?? false
         let iZettleAmount = NSDecimalNumber(value: amount)
 
-         guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
-             result(FlutterError(code: "NO_VIEW_CONTROLLER", message: "Could not find root view controller", details: nil))
-             return
-         }
+        guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
+            result(
+                FlutterError(
+                    code: "NO_VIEW_CONTROLLER", message: "Could not find root view controller",
+                    details: nil))
+            return
+        }
 
-         iZettleSDK.shared().charge(amount: iZettleAmount, enableTipping: enableTipping, reference: reference, presentFrom: viewController) { [weak self] (paymentInfo, error) in
-             DispatchQueue.main.async {
-                 if let error = error {
-                     print("ZettlePaypalFlutterPlugin: Payment failed: \(error.localizedDescription)")
-                     
-//                     if error.code == iZettleSDKErrorCode.userCancel.rawValue {
-//                         result(FlutterError(code: "PAYMENT_CANCELLED", message: "Payment was cancelled", details: nil))
-//                     } else {
-                         result(FlutterError(code: "PAYMENT_FAILED", message: error.localizedDescription, details: nil))
-//                     }
-                 } else if let paymentInfo = paymentInfo {
-                     let paymentResult = self?.createPaymentResultDictionary(from: paymentInfo)
-                     result(paymentResult)
-                 }
-             }
-         }
+        iZettleSDK.shared().charge(
+            amount: iZettleAmount, enableTipping: enableTipping, reference: reference,
+            presentFrom: viewController
+        ) { [weak self] (paymentInfo, error) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    print(
+                        "ZettlePaypalFlutterPlugin: Payment failed: \(error.localizedDescription)")
+
+                    //                     if error.code == iZettleSDKErrorCode.userCancel.rawValue {
+                    //                         result(FlutterError(code: "PAYMENT_CANCELLED", message: "Payment was cancelled", details: nil))
+                    //                     } else {
+                    result(
+                        FlutterError(
+                            code: "PAYMENT_FAILED", message: error.localizedDescription,
+                            details: nil))
+                    //                     }
+                } else if let paymentInfo = paymentInfo {
+                    guard let self = self else {
+                        result(
+                            FlutterError(
+                                code: "INTERNAL_ERROR", message: "Plugin instance was deallocated",
+                                details: nil))
+                        return
+                    }
+                    print("ZettlePaypalFlutterPlugin: Payment successful")
+                    print("ZettlePaypalFlutterPlugin: Payment info: \(paymentInfo)")
+                    let paymentResult = self.createPaymentResultDictionary(from: paymentInfo)
+                    print("ZettlePaypalFlutterPlugin: Payment result: \(paymentResult)")
+                    result(paymentResult)
+                } else {
+                    result(
+                        FlutterError(
+                            code: "PAYMENT_FAILED", message: "No payment information received",
+                            details: nil))
+                }
+            }
+        }
     }
 
     private func refund(arguments: [String: Any], result: @escaping FlutterResult) {
@@ -643,24 +668,43 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
 
     // MARK: - Helper Methods
 
-    // TODO: Implement when integrating actual SDK
-     private func createPaymentResultDictionary(from paymentInfo: iZettleSDKPaymentInfo) -> [String: Any] {
-         return [
-             "amount": [
-                 "amount": paymentInfo.amount.doubleValue,
-//                 "currencyCode": paymentInfo.amount.currencyID.rawValue
-             ],
-//             "gratuityAmount": paymentInfo.gratuityAmount != nil ? [
-//                 "amount": paymentInfo.gratuityAmount!.amount.doubleValue,
-//                 "currencyCode": paymentInfo.gratuityAmount!.currencyID.rawValue
-//             ] : nil,
-//             "reference": paymentInfo.reference,
-//             "entryMode": paymentInfo.entryMode?.rawValue,
-             "authorizationCode": paymentInfo.authorizationCode,
-             "obfuscatedPan": paymentInfo.obfuscatedPan,
-             "panHash": paymentInfo.panHash,
-             "cardBrand": paymentInfo.cardBrand,
-//             "receiptId": paymentInfo.receiptId
-         ]
-     }
+    private func createPaymentResultDictionary(from paymentInfo: iZettleSDKPaymentInfo) -> [String:
+        Any]
+    {
+        var result: [String: Any] = [:]
+
+        // Required amount field with proper structure (separate from other fields)
+        result["amount"] = [
+            "amount": paymentInfo.amount.doubleValue,
+            "currencyCode": "USD",  // TODO: Get actual currency from payment info when available
+        ]
+
+        // Map the payment fields correctly using the actual property names from iZettleSDKPaymentInfo
+        result["authorizationCode"] = paymentInfo.authorizationCode
+        result["obfuscatedPan"] = paymentInfo.obfuscatedPan
+        result["panHash"] = paymentInfo.panHash
+        result["cardBrand"] = paymentInfo.cardBrand
+        result["entryMode"] = paymentInfo.entryMode
+        result["reference"] = paymentInfo.referenceNumber
+        result["receiptId"] = paymentInfo.transactionId
+
+        // Optional fields - only include if not nil
+        if let applicationName = paymentInfo.applicationName {
+            result["aidName"] = applicationName
+        }
+
+        if let aid = paymentInfo.aid {
+            result["applicationIdentifier"] = aid
+        }
+
+        // Add gratuity amount if available
+        if let gratuityAmount = paymentInfo.gratuityAmount {
+            result["gratuityAmount"] = [
+                "amount": gratuityAmount.doubleValue,
+                "currencyCode": "USD",  // TODO: Get actual currency
+            ]
+        }
+
+        return result
+    }
 }

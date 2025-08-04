@@ -76,16 +76,43 @@ class MethodChannelZettlePaypalFlutter extends ZettlePaypalFlutterPlatform {
     ZettleCardPaymentInfo paymentInfo,
   ) async {
     try {
-      final result = await methodChannel.invokeMethod<Map<String, dynamic>>(
+      final result = await methodChannel.invokeMethod(
         'chargeCard',
         paymentInfo.toMap(),
       );
       if (result == null) {
         throw const ZettlePaymentFailedException('No payment result received');
       }
-      return ZettlePaymentResult.fromMap(result);
+
+      // Safely cast the result to Map<String, dynamic> with deep conversion
+      final Map<String, dynamic> resultMap = _convertToStringDynamicMap(result);
+
+      return ZettlePaymentResult.fromMap(resultMap);
     } on PlatformException catch (e) {
       throw ZettleExceptionFactory.fromPlatformException(e.code, e.message);
+    }
+  }
+
+  /// Helper method to recursively convert any Map to Map<String, dynamic>
+  Map<String, dynamic> _convertToStringDynamicMap(dynamic value) {
+    if (value is Map) {
+      final result = <String, dynamic>{};
+      value.forEach((key, val) {
+        if (key is String) {
+          if (val is Map) {
+            result[key] = _convertToStringDynamicMap(val);
+          } else {
+            result[key] = val;
+          }
+        }
+      });
+      return result;
+    } else if (value is Map<String, dynamic>) {
+      return value;
+    } else {
+      throw ZettlePaymentFailedException(
+        'Invalid payment result format: ${value.runtimeType}',
+      );
     }
   }
 
