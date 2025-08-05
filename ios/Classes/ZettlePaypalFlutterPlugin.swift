@@ -510,17 +510,17 @@ public class ZettlePaypalFlutterPlugin: NSObject, FlutterPlugin {
         ) { [weak self] (paymentInfo, error) in
             DispatchQueue.main.async {
                 if let error = error {
-                    print(
-                        "ZettlePaypalFlutterPlugin: Payment failed: \(error.localizedDescription)")
-
-                    //                     if error.code == iZettleSDKErrorCode.userCancel.rawValue {
-                    //                         result(FlutterError(code: "PAYMENT_CANCELLED", message: "Payment was cancelled", details: nil))
-                    //                     } else {
-                    result(
-                        FlutterError(
-                            code: "PAYMENT_FAILED", message: error.localizedDescription,
-                            details: nil))
-                    //                     }
+                    if (error.localizedDescription == "Payment canceled / Canceled by user"){
+                        result(FlutterError(code: "PAYMENT_CANCELLED", message: "Payment was cancelled", details: nil))
+                    }
+                    else {
+                        print(
+                            "ZettlePaypalFlutterPlugin: Payment failed: \(error.localizedDescription)")
+                        result(
+                            FlutterError(
+                                code: "PAYMENT_FAILED", message: error.localizedDescription,
+                                details: nil))
+                    }
                 } else if let paymentInfo = paymentInfo {
                     guard let self = self else {
                         result(
