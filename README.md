@@ -259,7 +259,6 @@ This plugin currently includes:
 - ✅ Complete Dart API with comprehensive models and exceptions
 - ✅ iOS platform implementation structure (with mock responses)
 - ✅ Comprehensive example application
-- ⚠️ **Note**: The iOS implementation uses mock responses for demonstration
 
 ### Integrating the Actual Zettle SDK
 
@@ -287,8 +286,6 @@ import iZettleSDK
 iZettleSDK.shared().start(with: iZettleSDKAuthorizationProviderPublicKey(clientID: "YOUR_CLIENT_ID"))
 ```
 
-3. Replace mock implementations with actual SDK calls throughout the plugin.
-
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.
@@ -308,6 +305,8 @@ For issues related to:
 
 - Built on top of the [Zettle iOS SDK](https://developer.zettle.com/docs/payment-integrations/ios-sdk)
 - Inspired by the need for Flutter integration with Zettle payment solutions
+
+- If you are a Paypal / Zettle team member and would like to take this project over, let me know. We could have it moved over and have it officially supported by the Paypal team.
 
 ## Inspirations
 
